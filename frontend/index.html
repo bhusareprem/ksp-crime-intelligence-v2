@@ -1971,6 +1971,12 @@
       border: 1px solid rgba(59,130,246,.28); text-decoration: none;
     }
     .alert-pill.news:hover { filter: brightness(1.35); }
+    #knInputHint {
+      display: none; font-size: 11.5px; color: var(--muted);
+      padding: 6px 4px 0; text-align: center; line-height: 1.5;
+    }
+    #knInputHint.show { display: block; }
+
     .alert-time { font-size: 10px; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
 
     /* ── Self-explaining guide ─────────────────────────────────────────── */
@@ -2235,6 +2241,14 @@
         <span class="doc-badge" id="docCountBadge" style="display:none">📄 <span id="docCountNum">0</span></span>
         <button class="stop-btn" id="stopBtn" onclick="stopChat()">Stop</button>
         <button class="send-btn" id="sendBtn" onclick="sendMessage()" title="Send">↑</button>
+      </div>
+      <!-- Shown only in Kannada. A web page cannot change what the keyboard
+           produces, so an officer - or a judge - with no Kannada input method
+           installed can find themselves unable to type the language the
+           interface has just switched to. This names the two ways in that need
+           no keyboard at all. -->
+      <div id="knInputHint">
+        🎤 ಕನ್ನಡ ಕೀಬೋರ್ಡ್ ಇಲ್ಲವೇ? ಮೈಕ್ ಒತ್ತಿ ಮಾತನಾಡಿ, ಅಥವಾ ಮೇಲಿನ ಉದಾಹರಣೆಯನ್ನು ಒತ್ತಿ.
       </div>
     </div>
   </div>
@@ -3538,6 +3552,8 @@ function setLang(lang) {
   // The guide holds its own prose in both languages, so it redraws rather than
   // being translated through the UI dictionary.
   if (document.getElementById('guidePanel')?.classList.contains('open')) renderGuide();
+  const hint = document.getElementById('knInputHint');
+  if (hint) hint.classList.toggle('show', lang === 'kn');
   const gb = document.getElementById('guideBtn');
   if (gb) gb.title = lang === 'kn' ? 'ಈ ಪರದೆ ಏನು?' : 'What is this screen?';
   // Charts and feeds are drawn once when their tab opens, so without this the
